@@ -139,7 +139,7 @@ static void server( cbuf_handle_t cbuf){
 
     // Set timeout on received messages. Variable struct timeval timeout is responsible for defining the timeout.
     if ( setsockopt( incomingSocketId, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0){
-      printf("SERVER: ERROfflush(stdout);R TIMEOUT SET FAILED\n");
+      printf("SERVER: ERROR TIMEOUT SET FAILED\n");
       continue;
     }
 
