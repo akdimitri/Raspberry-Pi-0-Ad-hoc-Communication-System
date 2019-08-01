@@ -13,7 +13,7 @@
 #include <inttypes.h>
 #include "../circular_buffer/circular_buffer.h"
 
-const char myAEM[] = "8535";
+const char myAEM[] = "8462";
 
 /* int checkForDuplicate( cbuf_handle_t cbuf, char *buffer):
       DESCRIPTION:  this function checks if message in buffer has already been saved
