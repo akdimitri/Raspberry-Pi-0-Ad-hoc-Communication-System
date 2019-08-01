@@ -127,6 +127,7 @@ static void server( cbuf_handle_t cbuf){
   clientLength = sizeof(clientAdress);
 
   while(1){
+    fflush(stdout);
     // wait untill a new connection request to communicate.
     // Initialize incoming socekt info.
     int incomingSocketId = accept( socketId, (struct sockaddr*) &clientAdress, &clientLength);
@@ -138,7 +139,7 @@ static void server( cbuf_handle_t cbuf){
 
     // Set timeout on received messages. Variable struct timeval timeout is responsible for defining the timeout.
     if ( setsockopt( incomingSocketId, SOL_SOCKET, SO_RCVTIMEO, (char *)&timeout, sizeof(timeout)) < 0){
-      printf("SERVER: ERROR TIMEOUT SET FAILED\n");
+      printf("SERVER: ERROfflush(stdout);R TIMEOUT SET FAILED\n");
       continue;
     }
 
@@ -195,6 +196,7 @@ static void server( cbuf_handle_t cbuf){
     }
 
     // Coummunication has been completed.
+    circular_buf_print(cbuf);   // print circular buffer to file
     circular_buf_unlock(cbuf);  // unlock circular buffer.
     printf("SERVER: MESSAGES RECEIVED SUCCESSFULLY FROM %s: %d. MESSAGES SAVED: %d\n",  IP, Nrecv, Nsaved);
   }

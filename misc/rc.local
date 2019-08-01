@@ -22,12 +22,8 @@ fi
 echo "0" > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
 
 # Execute main program at start up
-# Program is executed and its results are redirected to log(date).txt file
-# Date does not corresponds with real date.
-# use command >> date
-# to check date of the systems if you are not sure.
-# 0.05 corresponds to 3 minutes
-# change it if you want
-/root/main_dimitris_8462 1 >> /root/log.txt 2>&1
+# Uncomment one of the following lines
+# nohup /root/test_8462 > /root/log.txt 2>&1 &
+# nohup /root/test_8535 > /root/log.txt 2>&1 &
 
 exit 0

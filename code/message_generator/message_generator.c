@@ -29,6 +29,7 @@ static void messageGenerator( cbuf_handle_t cbuf){
   if(fid < 0){
     printf("MESSAGE GENERATOR: ERROR on opening AEM list file...Exiting\n");
   }
+  fflush(stdout);
 
   while( fscanf( fid, "%d\n", &AEMLIST[N_AEM]) != EOF){
     N_AEM++;
@@ -79,6 +80,7 @@ static void messageGenerator( cbuf_handle_t cbuf){
 
 
     circular_buf_put( cbuf, time_u, buffer);
+    circular_buf_print(cbuf);       // print circular buffer to file
     circular_buf_unlock(cbuf);
 
     fclose (temperatureFile);

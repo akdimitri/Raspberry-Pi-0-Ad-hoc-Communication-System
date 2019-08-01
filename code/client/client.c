@@ -67,6 +67,7 @@ int scan( char **IPaddr){
     // Broadcast ping !!! Do not Forget to set it correctly
     // system("ping -c10 -b 192.168.0.255 > /dev/null");
     system("ping -c10 -b 10.255.255.255 > /dev/null");
+    fflush(stdout);
 
     fp = popen( "arp -n", "r");           // Execute command arp -n and create a File Descriptor
                                           // which contains the result of the command
@@ -80,6 +81,13 @@ int scan( char **IPaddr){
       if( N > 0){                             // Ignore the first line which includes headers of the columns
         IP = NULL;                            // Keep the string from the begging of the line until
         IP = strtok( buffer, " ");            // the first whitespace character
+        //printf("%s\n", IP);
+
+        //int k = strcmp( IP, "192.168.0.5");
+        //printf("%d\n", k);
+        if( (strcmp( IP, "192.168.0.5") == 0) || (strcmp( IP, "10.0.0.5") == 0) ){  // Ignore PC IP
+          continue;
+        }
         strcpy( IPaddr[N-1], IP);             // Copy the scanned IP addresss to the IPaddr array
       }
 
@@ -95,7 +103,7 @@ int scan( char **IPaddr){
     }
 
     if( N == 0){                              // If 0 devices were found. Wait five seconds and try again.
-      printf("CLIENT: NUMBER OF CONNECTED DEVICES: 0\nCLIENT: NEXT TRIAL IN 5 SECONDS\n");
+      printf("CLIENT: ACTIVE CONNECTIONS: 0\n");
       sleep(5);
     }
 
@@ -423,7 +431,7 @@ int sendMessage( char *IP, cbuf_handle_t cbuf){
       }
       else{
         gettimeofday( &stop, NULL);
-        printf("CLIENT: MESSAGE SENT SUCCESSFULLY in %" PRIu64 " usecs.\n", (uint64_t)(stop.tv_sec - start.tv_sec)*((uint64_t)(1000000)) + (uint64_t)(stop.tv_usec - start.tv_usec));
+        printf("CLIENT: MESSAGE %s SENT SUCCESSFULLY in %" PRIu64 " usecs.\n", message, (uint64_t)(stop.tv_sec - start.tv_sec)*((uint64_t)(1000000)) + (uint64_t)(stop.tv_usec - start.tv_usec));
       }
       Nsends++;                       // increase the number of successful sends
       index = (index + 1) % capacity;   // increase the index. If index reaches end of buffer restart from 0.
@@ -502,7 +510,7 @@ static void client( cbuf_handle_t cbuf){
     Nnew = findNewConnections( IPaddr, preIPaddr, newIPaddr, N, Npre);  // Check for newly connected devices
 
     if( Nnew > 0){
-      printf("CLIENT: NEW CONNECTIONS: %d\n", Nnew);
+      //printf("CLIENT: NEW CONNECTIONS: %d\n", Nnew);
       gettimeofday( &discoveryTime, NULL);
     }
 
@@ -531,7 +539,8 @@ static void client( cbuf_handle_t cbuf){
       status = sendMessage( IPaddr[i], cbuf);
       if( status >= 0){
         gettimeofday( &stopCommuticationTime, NULL);
-        printf("CLIENT: MESSAGES SENT TO %s : %d COMMUNICATION DURATION SINCE SEND PROCESS INITIATED: %"PRIu64"  usecs \n", IPaddr[i], status, (uint64_t)(stopCommuticationTime.tv_sec - startCommunicationTime.tv_sec)*((uint64_t)(1000000)) + (uint64_t)(stopCommuticationTime.tv_usec - startCommunicationTime.tv_usec));
+        //printf("CLIENT: COMMUNICATION DURATION SINCE SEND PROCESS INITIATED: %"PRIu64"  usecs \n", (uint64_t)(stopCommuticationTime.tv_sec - startCommunicationTime.tv_sec)*((uint64_t)(1000000)) + (uint64_t)(stopCommuticationTime.tv_usec - startCommunicationTime.tv_usec));
+        printf("CLIENT: MESSAGES SENT TO %s : %d\n", IPaddr[i], status);
       }
       else if( status < 0){
         printf("CLIENT: COMMUNICATION TERMINATED UNSUCCESSFULLY WITH IP: %s\n", IPaddr[i]);

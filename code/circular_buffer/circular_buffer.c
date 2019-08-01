@@ -298,11 +298,20 @@ void circular_buf_print( cbuf_handle_t cbuf){
   size_t N = circular_buf_size(cbuf);
   int count = 0;
   size_t i = cbuf->tail;
+  FILE * fp;
+
+  fp = fopen ("circular_buffer.txt", "w");
+
+
   while( count < (int)N) {
-    printf("%s \t\t%" PRIu64"\n", cbuf->message[i], cbuf->timestamp[i]);
+    fprintf( fp, "%s \t\t%" PRIu64"\n", cbuf->message[i], cbuf->timestamp[i]);
     i = (i + 1) % (cbuf->max);
     count++;
   }
+
+  fclose(fp);
+
+  printf("CIRCULAR BUFFER PRINTED TO FILE\n");
 }
 
 /* circular_buf_read_element( cbuf_handle_t cbuf, uint64_t *timestamp, char **message, int index):

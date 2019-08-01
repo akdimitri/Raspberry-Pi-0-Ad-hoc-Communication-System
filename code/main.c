@@ -31,10 +31,10 @@
 
 
 int main(int argc, char const *argv[]) {
-  if( argc != 2){
+  /*if( argc != 2){
     printf("USAGE: >> %s TIME_OF_EXECUTION_IN_HOURS\n", argv[0]);
     exit(EXIT_FAILURE);
-  }
+  }*/
 
   size_t i;
   uint64_t time;
@@ -70,6 +70,12 @@ int main(int argc, char const *argv[]) {
 
 
   // Threads Initialization
+  pthread_t messageGeneratorThread;         // thread initialization to hold the messages generator
+  if( pthread_create( &messageGeneratorThread, NULL, (void *)helperMessageGeneratorRoutine, (void *)cbuf)){
+    printf("ERROR: Could not create MESSAGES GENERATOR thread.Exiting...\n");
+    exit(EXIT_FAILURE);
+  }
+  
   pthread_t serverThread;         // thread initialization to hold the server
   if( pthread_create( &serverThread, NULL, (void *)helperServerRoutine, (void *)cbuf)){
     printf("ERROR: Could not create SERVER thread.Exiting...\n");
@@ -82,24 +88,21 @@ int main(int argc, char const *argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  pthread_t messageGeneratorThread;         // thread initialization to hold the messages generator
-  if( pthread_create( &messageGeneratorThread, NULL, (void *)helperMessageGeneratorRoutine, (void *)cbuf)){
-    printf("ERROR: Could not create MESSAGES GENERATOR thread.Exiting...\n");
-    exit(EXIT_FAILURE);
-  }
+
 
   // Execution time
-  float executionDuration = atof(argv[1])*3600;
-  sleep((int)executionDuration); // sleep main thread
+  //float executionDuration = atof(argv[1])*3600;
+  //sleep((int)executionDuration); // sleep main thread
 
   // wake up - kill client/server/messagecreator threads
-  pthread_cancel(serverThread);
-  pthread_cancel(clientThread);
-  pthread_cancel(messageGeneratorThread);
+  //pthread_cancel(serverThread);
+  //pthread_cancel(clientThread);
+  //pthread_cancel(messageGeneratorThread);
+  pthread_exit(NULL);
 
 
-  printf("\n\n\nCIRCULAR BUFFER\nMESSAGES \t TIMESTAMPS\n");
-  circular_buf_print(cbuf);
+  //printf("\n\n\nCIRCULAR BUFFER\nMESSAGES \t TIMESTAMPS\n");
+  //circular_buf_print(cbuf);
 
   // clean up
   circular_buf_free(cbuf);
