@@ -14,7 +14,7 @@ static void messageGenerator( cbuf_handle_t cbuf){
   int r;
   char buffer[277];
   uint64_t time_u;
-  uint32_t myAEM = 8535;
+  uint32_t myAEM = 8462;
   uint32_t toAEM;
   struct timeval timestamp;
 
