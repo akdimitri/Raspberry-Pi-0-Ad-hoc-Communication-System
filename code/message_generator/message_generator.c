@@ -28,8 +28,9 @@ static void messageGenerator( cbuf_handle_t cbuf){
   fid = fopen( "./AEM.txt", "r");
   if(fid < 0){
     printf("MESSAGE GENERATOR: ERROR on opening AEM list file...Exiting\n");
+    exit(EXIT_FAILURE);
   }
-  fflush(stdout);
+  
 
   while( fscanf( fid, "%d\n", &AEMLIST[N_AEM]) != EOF){
     N_AEM++;
@@ -84,7 +85,8 @@ static void messageGenerator( cbuf_handle_t cbuf){
     circular_buf_unlock(cbuf);
 
     fclose (temperatureFile);
-
+    fflush(stdout);
+    
     // r = (random % ( upper - lower + 1)) + lower.
     r = (rand() %(((5 * 60) - (1 * 60)) + 1)) + 60;      // Returns a pseudo-random integer between 0 and RAND_MAX
     sleep(r);
