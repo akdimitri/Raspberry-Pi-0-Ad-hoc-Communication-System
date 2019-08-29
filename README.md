@@ -33,3 +33,16 @@ _Message generator thread_ ([message_generator.c](https://github.com/akdimitri/R
 _Server thread_ ([server.c](https://github.com/akdimitri/Raspberry-Pi-0-Ad-hoc-Communication-System/blob/master/code/server/server.c)): this thread is also created by _Main thread_. It is implimenting a _server_ which receives messages from other devices. When a message is received, _server_ is responsible for checking whether this message has already been received or if the device is the final destination of this message. According to the first case, if the message has not already been received, it is saved in the _circular buffer_ alongside the _timestamp_ of receivement. Otherwise, the message is discarded. According to the second case, if the message is destined for the _server's_ device, _server_ does not save the message but announces the receivement of the _message_.
 
 _Client thread_ ([client.c](https://github.com/akdimitri/Raspberry-Pi-0-Ad-hoc-Communication-System/blob/master/code/client/client.c)): this thread is created by _Main thread_. It is constantly scanning the local network for connected devices. Upon a discovery of a device, _client_ is checking whether this devices has been connected before. Subsequently, _client_ sends only the messages that have not been sent before. If the connected device, is a new device, then all the messages included in the _circular buffer_ are sent to the device.
+
+---
+
+The messages that are exchanged have the following format:
+
+>**Sender'sAEM_Receiver'sAEM_generationTimestamp_Message**
+
+it is consisted out of 277 characters:
+   
+   * Sender's AEM:            4 chars
+   * Receiver's AEM:          4 chars
+   * Generation Timestamp:    10 chars
+   * Message:                 256 chars
