@@ -59,3 +59,14 @@ _Ip list_ ([circular_buffer.c](https://github.com/akdimitri/Raspberry-Pi-0-Ad-ho
 **Compliation**
 
 > arm-linux-gnueabihf-gcc main.c ./server/server.c ./client/client.c ./message_generator/message_generator.c ./circular_buffer/circular_buffer.c -o main -march=armv6 -mfloat-abi=hard -mfpu=vfp -pthread
+
+---
+**Execution**
+
+**Important**: this is program is using broadcast ping in order to discover new devices connected to the local network. Therefore the connected devices must respond to ICMP Echo Messages. In order to enable response to ICMP Packets, devices must execute before program's execution the following command.
+
+> echo "0" > /proc/sys/net/ipv4/icmp_echo_ignore_broadcasts
+
+Program's execution does not require arguments.Execution:
+
+> ./main
