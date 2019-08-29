@@ -19,6 +19,7 @@ Semester:     8th
 
 This program is consisted of four(4) threads.
 Threads:
+
     * Main thread
     * Message generator thread
     * Server thread
