@@ -55,3 +55,7 @@ _circular buffer_ ([circular_buffer.c](https://github.com/akdimitri/Raspberry-Pi
 
 _Ip list_ ([circular_buffer.c](https://github.com/akdimitri/Raspberry-Pi-0-Ad-hoc-Communication-System/blob/master/code/circular_buffer/circular_buffer.c)): this is the array that stores the IPs of the devices that have been connected before with the current device alongside with the latest timestamp of connection. This array was included inside _circular_buffer.c_ file for facilitating the implementation of the program.
 
+---
+**Compliation**
+
+> arm-linux-gnueabihf-gcc main.c ./server/server.c ./client/client.c ./message_generator/message_generator.c ./circular_buffer/circular_buffer.c -o main -march=armv6 -mfloat-abi=hard -mfpu=vfp -pthread
