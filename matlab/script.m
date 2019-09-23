@@ -16,7 +16,7 @@ fprintf("READING FROM FILE...\n");
 lines = cell(0,1);  %initialize array to hold strings
 
 % ENTER PATH OF LOG FILE HERE
-path = '../results/test_final_8462/log.txt';
+path = '../results/test_final_8535/log.txt';
 fileID = fopen(path,'r');
 fprintf("FROM PATH %s \n", path);
 
@@ -186,12 +186,14 @@ for i = 1:length(lines)
 end
  
 CLIENT_MEAN_SEND_TIME = mean(CLIENT_SEND_DURATION);
+CLIENT_STD_SEND_TIME = std(CLIENT_SEND_DURATION);
 fprintf('\nCLIENT\n');
 fprintf("%d TIMES A MESSAGE WAS SENT SUCCESSFULLY \n", CLIENT_SENT_SUCCESS);
 fprintf("%d TIMES CLIENT RECEIVED A TIMEOUT \n", CLIENT_TIMEOUT);
 fprintf("%d TIMES CLIENT ENCOUNTERED AN ERROR \n", CLIENT_ERROR);
 fprintf("%d TIMES CLIENT DID NOT SEND ANY MESSAGES, ALL ELEMENTS HAD ALREADY BEEN SENT \n", CLIENT_ALL_SENT);
 fprintf("%f usecs IS THE MEAN DURATION OF SEND PROCCESS\n", CLIENT_MEAN_SEND_TIME);
+fprintf("%f usecs IS THE STANDARD DEVIATION OF DURATION OF SEND PROCCESS\n", CLIENT_STD_SEND_TIME);
 % for i = 1:length(CLIENT_SEND_FREQ(:,1))
 %     fprintf("%d MESSAGES SENT %d TIMES WITH MEAN TIME %.0f usecs\n", CLIENT_SEND_FREQ(i,1), CLIENT_SEND_FREQ(i,2), MEAN_SEND_TIME(i));
 % end
